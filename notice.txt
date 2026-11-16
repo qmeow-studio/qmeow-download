@@ -1,0 +1,343 @@
+PawIME
+Copyright (c) Terence Yu
+
+This application is built on work by other people and redistributes it. This
+file names that work, as the licences require. The full text of the Apache
+License, Version 2.0 is included beside this file as LICENSE-Apache-2.0.txt.
+
+
+================================================================================
+1. The Android Open Source Project
+================================================================================
+
+   Copyright (C) 2008-2011 The Android Open Source Project
+
+The keyboard itself - the view that draws the keys, the touch handling, the
+candidate strip, the voice input panel, and the compatibility shims around them
+- derives from the Latin IME of the Android Open Source Project.
+
+Java classes, under hk.pawime.inputmethod:
+
+   LatinKeyboard, LatinKeyboardView, LatinKeyboardBaseView,
+   KeyDetector, ProximityKeyDetector, MiniKeyboardKeyDetector,
+   PointerTracker, SwipeTracker, ModifierKeyState, WordComposer,
+   dictionary/BaseChars,
+   candidate/CandidateView, candidate/CandidateViewContainer,
+   dictionary/MyAutoText (from AutoText),
+   dictionary/user/ExpandableDictionary, dictionary/user/UserDictionary,
+   compat/CompatUtils, compat/InputTypeCompatUtils,
+   voice/VoiceInput, voice/VersionedVoiceInput, voice/RecognitionView,
+   voice/WaveformImage, voice/EditingUtil, voice/FieldContext,
+   voice/SettingsUtil, voice/Whitelist
+
+Resources, all under res/:
+
+   the 213 keyboard images named btn_keyboard_*, sym_keyboard_*,
+   sym_bkeyboard_* and keyboard_*, and the key-preview and mini-keyboard
+   animations under anim/;
+
+   the voice input artwork - speak_now_level0-6, mic_slash, voice_ime_background,
+   voice_swipe_hint, working, caution, cancel, ok_cancel, dialog_bubble_step*,
+   ic_mic_dialog, ic_subtype_* - and the layout that arranges it,
+   recognition_status.xml;
+
+   the candidate strip's own artwork - candidate_feedback_background,
+   ic_suggest_strip_*, ic_suggest_scroll_background, highlight_pressed,
+   hint_popup, button_background - and candidate_preview.xml and
+   key_preview.xml;
+
+   the Latin keyboard layouts and popups kbd_phone, kbd_phone_symbols,
+   kbd_popup_template, kbd_popup_narrow_template, popup_at, popup_comma,
+   popup_domains, popup_punctuation and popup_slash;
+
+   and the dimensions and timings those are laid out and animated by,
+   dimens.xml and integers.xml, whose names are that project's and whose
+   values have been tuned here.
+
+These files were identified from their class and resource names, which are the
+Android project's own. Anything else in this application later found to derive
+from that project is covered by the same licence and the same notice.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+
+================================================================================
+2. Material Design Icons
+================================================================================
+
+This application bundles icon artwork from Material Design Icons
+(https://pictogrammers.com/library/mdi/), by Pictogrammers and contributors,
+licensed under the Apache License, Version 2.0.
+
+The icons concerned are the vector drawables under res/drawable/ named
+ic_pref_*, ic_tb_* and ic_ed_*. Each one names the Material Design Icons glyph
+it was taken from in a comment at the top of the file. Some of the ic_ed_*
+glyphs (the chevrons, line-start/line-end, return, and the selection frames)
+were drawn for this app and are not derived from that set.
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+
+================================================================================
+3. The Unicode Character Database
+================================================================================
+
+Three dictionaries are built from the Unihan database:
+
+   cangjie.dat   倉頡 and 速成, from kCangjie
+   zhuyin.dat    注音, from kMandarin, converted from pinyin to Bopomofo
+   reverse.dat   反查, by inverting cangjie.dat and stroke.dat
+
+with kGradeLevel, kHKGlyph, kUnihanCore2020 and kBigFive deciding which
+character is offered first. The notice carried by those data files:
+
+    # Unicode Character Database
+    # © 2025 Unicode®, Inc.
+    # Unicode and the Unicode Logo are registered trademarks of Unicode, Inc.
+    # in the U.S. and other countries.
+    # For terms of use and license, see https://www.unicode.org/terms_of_use.html
+
+Unicode Version 17.0.0, data files dated 2025-07-24. Generated by
+tools/gen_cangjie.py, tools/gen_zhuyin.py and tools/gen_reverse.py; nothing was
+transcribed by hand.
+
+
+================================================================================
+4. cnchar, and "Yet another IDS"
+================================================================================
+
+The 筆劃 dictionary, assets/stroke.dat, is built from two MIT-licensed
+collections:
+
+   cnchar - Copyright (c) 2017 - present theajack <theajack@qq.com>
+   https://github.com/theajack/cnchar
+   Stroke orders for 9 504 characters (stroke-order-jian.json,
+   stroke-order-trad.json) and the table that says what each stroke letter
+   means (stroke-table.json).
+
+   Yet another IDS - Copyright (c) 2021 Yi Bai
+   Ideographic Description Sequences, e.g. 嘢 = ⿰口野, used to build the
+   strokes of a character out of its parts where cnchar has no entry for it.
+
+Both are used under the MIT licence:
+
+   Permission is hereby granted, free of charge, to any person obtaining a copy
+   of this software and associated documentation files (the "Software"), to deal
+   in the Software without restriction, including without limitation the rights
+   to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+   copies of the Software, and to permit persons to whom the Software is
+   furnished to do so, subject to the following conditions:
+
+   The above copyright notice and this permission notice shall be included in
+   all copies or substantial portions of the Software.
+
+   THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+   IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+   FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+   AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+   LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+   OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+   SOFTWARE.
+
+tools/gen_stroke.py does the building. 9 504 of the 20 346 entries are cnchar's
+stroke orders folded into the keyboard's five classes; the other 10 842 are
+composed from the parts, which matches cnchar's own answer 92.6% of the time on
+the characters where both exist.
+
+
+================================================================================
+5. rime-cantonese
+================================================================================
+
+The 關聯詞 table, assets/words.dat, is built from rime-cantonese by the
+Cantonese Computational Linguistics Infrastructure Development Workgroup
+(CanCLID), https://github.com/rime/rime-cantonese:
+
+   essay-cantonese.txt          word frequencies
+   jyut6ping3.words.dict.yaml   the Cantonese lexicon
+
+   Copyright (c) CanCLID
+   Licensed under the Creative Commons Attribution 4.0 International License
+   http://creativecommons.org/licenses/by/4.0/
+
+The project's jyut6ping3.maps file is under the Open Database Licence and is
+not used here.
+
+CC-CEDICT was considered and not used: it is CC BY-SA, and the share-alike
+would attach to this dictionary.
+
+
+================================================================================
+6. The English Speller Database
+================================================================================
+
+The English dictionary, assets/english.dat, is built from data/scowl-pre.txt of
+Kevin Atkinson's English Speller Database (ESDB, previously SCOWL),
+http://wordlist.aspell.net/ - 85 275 words, ordered by the size band the
+database assigns them.
+
+   Copyright 2000-2026 by Kevin Atkinson
+
+   Permission to use, copy, modify, distribute, and sell any part of the
+   English Speller Database (ESDB, previously known as SCOWLv2), or word lists
+   created from it, is hereby granted without fee, provided that the above
+   copyright notice appears in all copies and that both the above copyright
+   notice and this notice appear in supporting documentation.  Kevin Atkinson
+   makes no representations about the suitability of this database for any
+   purpose.  It is provided "as is" without express or implied warranty.
+
+   ESDB is derived from many sources, most of which are in the Public Domain.
+   Data from the Corpus of Contemporary American English (COCA) was also used.
+
+   The primary source of words for ESDB comes from 12dicts and ENABLE2K.  Both
+   are in the Public Domain, but Alan Beale <biljir@pobox.com> deserves special
+   credit as he is the author of 12dicts and a major contributor to ENABLE2K.
+
+
+================================================================================
+7. 教育部《成語典》 (Ministry of Education Dictionary of Chinese Idioms)
+================================================================================
+
+   中華民國教育部（Ministry of Education, R.O.C.）。《成語典》
+   （版本編號：2020，資料檔 dict_idioms_2020_20260929）
+   網址：https://dict.idioms.moe.edu.tw/
+
+The 成語 panel (1.7.207 onward) contains the complete text database of this
+dictionary - every field of all 5,489 entries - as assets/idioms/index.txt and
+assets/idioms/detail.qmz. It is used under the Creative Commons
+Attribution-NoDerivatives 3.0 Taiwan licence (創用CC 姓名標示－禁止改作 3.0
+臺灣授權條款):
+
+   https://creativecommons.org/licenses/by-nd/3.0/tw/legalcode
+
+and the Ministry's usage notice (《成語典》公眾授權使用說明), which must be
+followed and is published at:
+
+   https://language.moe.gov.tw/001/Upload/Files/site_content/M0001/respub/idiomsdict_10409.pdf
+
+Only the file format was changed (tools/idioms/build_idioms.py): the entry
+text - headwords, pronunciations, definitions, sources, citations and usage
+notes - is unchanged and is not converted to simplified characters, and
+inserted idioms are not passed through the 繁簡 output conversion. The
+Excel line-break code "_x000D_" in the source file is stored as a normal
+line break.
+
+
+================================================================================
+8. 教育部《重編國語辭典修訂本》 (Revised Mandarin Chinese Dictionary)
+================================================================================
+
+   中華民國教育部（Ministry of Education, R.O.C.）。《重編國語辭典修訂本》
+   （資料檔 dict_revised_2015_20260929）
+   網址：https://dict.revised.moe.edu.tw/
+
+From 1.7.218, assets/words.dat (the related-word suggestions shown after a
+character is typed) also contains words taken from the headword (字詞名)
+column of this dictionary - about 149,000 multi-character words. No
+definitions or other text of the dictionary are included. Each word is
+split into a first character (or first two characters) and the rest, as
+the suggestion list needs (tools/words/merge_revised_words.py).
+
+The Ministry publishes this dictionary for public use under its dictionary
+public licence (辭典公眾授權); see the 辭典公眾授權網 linked at the foot of
+https://dict.revised.moe.edu.tw/ for the licence and usage notice.
+
+
+================================================================================
+9. English word frequencies and next words (symspellpy data)
+================================================================================
+
+From 1.7.219, assets/english.dat uses word frequencies, and gains common
+words it lacked, from frequency_dictionary_en_82_765.txt; and
+assets/english_next.dat (next-word suggestions) is built from
+frequency_bigramdictionary_en_243_342.txt. Both files ship with symspellpy
+6.10.2 (https://github.com/mammothb/symspellpy, MIT License,
+Copyright (c) 2025 mmb L; original SymSpell Copyright (c) 2021 Wolf Garbe,
+https://github.com/wolfgarbe/SymSpell). The counts come from the Google
+Books Ngram data (https://books.google.com/ngrams), which "may be freely
+used for any purpose", intersected with the SCOWL word lists. Only the
+words and their order are used (tools/english/build_english.py).
+
+
+================================================================================
+10. Cantonese / Mandarin word pairs (Wiktionary)
+================================================================================
+
+From 1.7.228, assets/dialect_wikt.txt (used by the 粵普 hints and the 粵普
+toolbar button) is derived from Wiktionary's "Chinese dialectal synonyms"
+tables (Module:zh/data/dial-syn/*, https://en.wiktionary.org/), by
+Wiktionary contributors, licensed under the Creative Commons
+Attribution-ShareAlike 4.0 International licence
+(https://creativecommons.org/licenses/by-sa/4.0/). Only the Formal,
+Taiwan, Hong Kong, Guangzhou and Macau columns are used; pairs were filtered
+and reformatted by tools/dialect/build_wiktionary.py. The file
+assets/dialect_wikt.txt is itself distributed under CC BY-SA 4.0.
+assets/dialect.txt is Q-Meow's own list and is covered by section 12.
+
+
+================================================================================
+11. Cantonese / Mandarin word pairs (words.hk)
+================================================================================
+
+From 1.7.229, assets/dialect_wordshk.txt is derived from the words.hk
+粵典 Cantonese dictionary data (https://words.hk/), Copyright (c) Hong Kong
+Lexicography Ltd., used under the Non-Commercial Open Data License 1.0:
+non-commercial use only, and attribution and copyright notices must be
+kept. The pairs were taken from the synonyms of entries marked 書面語,
+大陸 or 台灣 (tools/dialect/build_wordshk.py, reading the dict.json in
+https://github.com/AlienKevin/wordshk-tools). Any commercial release of
+this application must remove this file or obtain separate permission.
+
+Q-Meow is distributed free of charge with every feature and word list
+available to everyone. The voluntary donation link in the settings does not
+unlock any feature, content or word list; it only supports the developer's
+time. No part of the words.hk data is sold or placed behind a payment.
+
+
+================================================================================
+12. Everything else
+================================================================================
+
+   Copyright (c) Terence Yu
+
+Everything above is what this application redistributes. Everything else in
+it - which is to say the whole of the Chinese input method, the settings
+screen, and the service that ties them together - was written for it:
+
+   dictionary/CangjieDictionary, dictionary/FiveStrokeDictionary,
+   dictionary/ZhuyinReadingDictionary, dictionary/RelatedWordDictionary,
+   dictionary/EnglishWordDictionary,
+   ReverseLookup, dictionary/ChineseCharDictionary,
+   dictionary/ChineseUserDictionary, dictionary/ChineseUserCharDictionary,
+   dictionary/RecentlyUsedMap, dictionary/UserDataFile, utils/TopWords,
+   candidate/Candidates, zhuyin/ZhuyinComposer, zhuyin/ZhuyinSyllable,
+   ChineseWordComposer, LatinWordComposer, Settings, SymbolHandler,
+   EnglishHandler, ChineseHandler, InputHandler, PunctuationQuickFix,
+   CommitUndo, PawIME, PawIMESettings
+
+the file formats they read and write, the Chinese keyboard layouts and
+punctuation panels under res/xml/, the 控制台 and its artwork, the keyboard
+toolbar, clipboard history, symbol and emoji panels, text-editing panel,
+themes, backup and restore, crash log, mixed Chinese-English input, the letter
+hints, the voice recogniser selection, and the 成語 panel (IdiomDictionary,
+IdiomView) - but not the 《成語典》 text it shows, which is credited above.

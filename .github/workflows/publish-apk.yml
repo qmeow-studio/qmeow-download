@@ -1,0 +1,63 @@
+# Copies one Q-Meow release from the private pawime repository into this public one.
+# Run it from the Actions tab (or `gh workflow run publish-apk.yml -f tag=v1.7.266-...`).
+# Needs the secret PAWIME_TOKEN: a fine-grained token with read-only "Contents" on qmeow-studio/pawime.
+name: Publish APK
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "pawime release tag, e.g. v1.7.266-donation-wording"
+        required: true
+
+permissions:
+  contents: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download APK from pawime
+        env:
+          GH_TOKEN: ${{ secrets.PAWIME_TOKEN }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          if [ -z "$GH_TOKEN" ]; then echo "::error::PAWIME_TOKEN secret is missing"; exit 1; fi
+          mkdir dl
+          gh release download "$TAG" -R qmeow-studio/pawime -p '*.apk' -D dl
+          gh release view "$TAG" -R qmeow-studio/pawime --json body -q .body > notes.txt
+          ls -la dl
+          test "$(ls dl/*.apk | wc -l)" -eq 1
+
+      - name: Check signer
+        run: |
+          set -euo pipefail
+          APKSIGNER=$(ls "$ANDROID_HOME"/build-tools/*/apksigner | sort -V | tail -1)
+          "$APKSIGNER" verify --print-certs dl/*.apk | tee certs.txt
+          grep -qi "SHA-256 digest: 9a5b1f2a61fba613a3355e738330ba3b7fcde613ed287039d4ee7d1c7f5331b5" certs.txt
+
+      - name: Create public release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          SRC=$(ls dl/*.apk)
+          NAME=$(basename "$SRC" | sed 's/-debug\.apk$/.apk/')
+          cp "$SRC" "dl/$NAME"
+          cp "$SRC" dl/Q-Meow.apk
+          VER=${TAG#v}
+          {
+            echo "Q-Meow ${VER%%-*}"
+            echo
+            echo "下載 **Q-Meow.apk** 安裝；已安裝舊版可以直接覆蓋，設定同學過嘅詞會保留。"
+            echo
+            echo "---"
+            echo
+            cat notes.txt
+            echo
+            echo "SHA-256 (APK): $(sha256sum dl/Q-Meow.apk | cut -d' ' -f1)"
+          } > public-notes.md
+          gh release create "$TAG" -R "$GITHUB_REPOSITORY" --title "Q-Meow ${VER%%-*}" \
+            --notes-file public-notes.md --latest "dl/Q-Meow.apk" "dl/$NAME"

@@ -55,7 +55,7 @@ jobs:
             echo
             echo "---"
             echo
-            cat notes.txt
+            sed "s/私人測試版/版本/g" notes.txt
             echo
             echo "SHA-256 (APK): $(sha256sum dl/Q-Meow.apk | cut -d' ' -f1)"
           } > public-notes.md

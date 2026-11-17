@@ -87,6 +87,8 @@ ol.steps span{color:var(--dim);font-size:15.5px}
 details{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:14px 18px}
 summary{cursor:pointer;font-weight:700}
 details p{color:var(--dim);margin-top:8px;font-size:15.5px}
+.cnote{margin-top:16px;color:var(--dim);max-width:48em}
+.giscus{margin-top:20px;max-width:48em}
 .comments{margin-top:24px;background:var(--surface);border:1px dashed var(--line);border-radius:14px;padding:22px;color:var(--dim);max-width:48em}
 footer{border-top:1px solid var(--line);padding-block:28px 40px;color:var(--dim);font-size:14px}
 footer .wrap{display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center}
@@ -175,7 +177,24 @@ footer .mail{font-family:var(--font-num);user-select:all}
 <section id="comments"><div class="wrap">
   <p class="eyebrow">Comments</p>
   <h2>留言同意見</h2>
-  <div class="comments" id="cusdis_thread">留言區準備緊。想問嘢或者報 bug，可以電郵 <span class="mail">qmeow.app@gmail.com</span>。</div>
+  <p class="cnote">用 GitHub 帳戶就可以留言（冇帳戶可以免費開）。唔想開帳戶，可以電郵 <span class="mail">qmeow.app@gmail.com</span>。</p>
+  <div class="giscus"></div>
+  <script src="https://giscus.app/client.js"
+        data-repo="qmeow-studio/qmeow-download"
+        data-repo-id="R_kgDOVw4suA"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOVw4suM4DLTZt"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-TW"
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async>
+  </script>
 </div></section>
 </main>
 
